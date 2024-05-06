@@ -22,7 +22,9 @@ public class Warehouse {
         if (materials.containsKey(material)) {
             initialCountOfMaterial = materials.get(material);
         }
-        materials.put(material, initialCountOfMaterial + count);
+        int finalCountOfMaterial = initialCountOfMaterial + count;
+        if(finalCountOfMaterial > material.getMaxCapacity()) finalCountOfMaterial = material.getMaxCapacity();
+        materials.put(material, finalCountOfMaterial);
     }
 
     public void addMaterial(Material material) {
