@@ -46,4 +46,9 @@ public class Warehouse {
         }
         throw new MaterialNotFoundException(material);
     }
+
+    public void transferMaterialTo(Material material, Warehouse warehouse) {
+        this.addMaterial(material, warehouse.getMaterialCount(material));
+        warehouse.removeMaterial(material);
+    }
 }
