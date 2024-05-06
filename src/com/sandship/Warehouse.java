@@ -1,5 +1,7 @@
 package com.sandship;
 
+import com.sandship.exceptions.MaterialNotFoundException;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,20 +29,19 @@ public class Warehouse {
         addMaterial(material, 1);
     }
 
-    public void removeMaterial(Material material, int count) {
+    public void removeMaterial(Material material) {
         if (materials.containsKey(material)) {
-            materials.put(material, materials.get(material) - count);
-        } else {
-            // throw exception
+            materials.remove(material);
+            return;
         }
 
-    }
-
-    public void removeMaterial(Material material) {
-
+        throw new MaterialNotFoundException(material);
     }
 
     public int getMaterialCount(Material material) {
-        return 0;
+        if (materials.containsKey(material)) {
+            return materials.get(material);
+        }
+        throw new MaterialNotFoundException(material);
     }
 }
