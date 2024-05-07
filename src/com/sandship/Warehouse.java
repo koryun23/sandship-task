@@ -1,19 +1,23 @@
 package com.sandship;
 
 import com.sandship.exceptions.MaterialNotFoundException;
+import com.sandship.subject.Subject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Warehouse {
+public class Warehouse extends Subject {
 
     private final Map<Material, Integer> materials;
 
     public Warehouse(Map<Material, Integer> materials) {
+        super(new ArrayList<>());
         this.materials = materials;
     }
 
     public Warehouse() {
+        super(new ArrayList<>());
         this.materials = new HashMap<>();
     }
 
@@ -25,6 +29,8 @@ public class Warehouse {
         int finalCountOfMaterial = initialCountOfMaterial + count;
         if(finalCountOfMaterial > material.getMaxCapacity()) finalCountOfMaterial = material.getMaxCapacity();
         materials.put(material, finalCountOfMaterial);
+        System.out.println(finalCountOfMaterial);
+        notifyObservers();
     }
 
     public void addMaterial(Material material) {
@@ -34,6 +40,7 @@ public class Warehouse {
     public void removeMaterial(Material material) {
         if (materials.containsKey(material)) {
             materials.remove(material);
+            notifyObservers();
             return;
         }
 
@@ -42,6 +49,7 @@ public class Warehouse {
 
     public int getMaterialCount(Material material) {
         if (materials.containsKey(material)) {
+            notifyObservers();
             return materials.get(material);
         }
         throw new MaterialNotFoundException(material);
@@ -50,5 +58,19 @@ public class Warehouse {
     public void transferMaterialTo(Material material, Warehouse warehouse) {
         this.addMaterial(material, warehouse.getMaterialCount(material));
         warehouse.removeMaterial(material);
+        notifyObservers();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("WAREHOUSE");
+        sb.append("\n-----------------------\n");
+        for(Map.Entry<Material, Integer> entry : this.materials.entrySet()) {
+            sb.append(entry.getKey().toString());
+            sb.append("Current Amount: ");
+            sb.append(entry.getValue());
+            sb.append("\n-----------------------\n");
+        }
+        return sb.toString();
     }
 }

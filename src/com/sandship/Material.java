@@ -74,11 +74,8 @@ public class Material {
 
     @Override
     public String toString() {
-        return "com.sandship.Material{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", icon='" + icon + '\'' +
-                ", maxCapacity=" + maxCapacity +
-                '}';
+        return String.format("Name of the Material: %s\nDescription: %s\nIcon: %s\nMaximum Capacity: %s\n",
+                this.getName(), this.getDescription(), this.getIcon(), this.getMaxCapacity());
+
     }
 }
