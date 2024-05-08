@@ -56,8 +56,8 @@ public class Warehouse extends Subject {
     }
 
     public void transferMaterialTo(Material material, Warehouse warehouse) {
-        this.addMaterial(material, warehouse.getMaterialCount(material));
-        warehouse.removeMaterial(material);
+        warehouse.addMaterial(material, warehouse.getMaterialCount(material));
+        this.removeMaterial(material);
         notifyObservers();
     }
 
