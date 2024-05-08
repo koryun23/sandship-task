@@ -9,7 +9,6 @@ public class WarehouseObserver implements Observer {
 
     public WarehouseObserver(Subject warehouse) {
         this.warehouseSubject = warehouse;
-        warehouse.attach(this);
     }
 
     @Override

@@ -24,8 +24,10 @@ public class Main {
         materials.put(rock, 5);
         materials.put(paper, 10);
         Warehouse warehouse = new Warehouse(materials);
-
+        Warehouse another = new Warehouse(new HashMap<>(materials));
         Observer warehouseObserver = new WarehouseObserver(warehouse);
+        warehouse.attach(warehouseObserver);
+        another.attach(warehouseObserver);
         warehouse.addMaterial(rock, 5);
     }
 }
