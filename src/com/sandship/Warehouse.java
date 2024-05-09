@@ -29,7 +29,6 @@ public class Warehouse extends Subject {
         int finalCountOfMaterial = initialCountOfMaterial + count;
         if(finalCountOfMaterial > material.getMaxCapacity()) finalCountOfMaterial = material.getMaxCapacity();
         materials.put(material, finalCountOfMaterial);
-        System.out.println(finalCountOfMaterial);
         notifyObservers();
     }
 
@@ -52,7 +51,7 @@ public class Warehouse extends Subject {
             notifyObservers();
             return materials.get(material);
         }
-        throw new MaterialNotFoundException(material);
+        return 0;
     }
 
     public void transferMaterialTo(Material material, Warehouse warehouse) {
@@ -64,13 +63,14 @@ public class Warehouse extends Subject {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("WAREHOUSE");
-        sb.append("\n-----------------------\n");
+        sb.append("\n----------------------------------------\n");
         for(Map.Entry<Material, Integer> entry : this.materials.entrySet()) {
             sb.append(entry.getKey().toString());
             sb.append("Current Amount: ");
             sb.append(entry.getValue());
             sb.append("\n-----------------------\n");
         }
+        sb.append("\n----------------------------------------\n");
         return sb.toString();
     }
 }
