@@ -9,12 +9,13 @@ public class WarehouseObserver implements Observer {
 
     public WarehouseObserver(Subject warehouse) {
         this.warehouseSubject = warehouse;
+        warehouseSubject.attach(this);
     }
 
     @Override
     public void update(Subject subject) {
         if(this.warehouseSubject == subject) {
-            System.out.println("Warehouse Observer observes changes in the state of its subject");
+            System.out.println("The state of the subject has changed");
             System.out.println(warehouseSubject);
         }
     }

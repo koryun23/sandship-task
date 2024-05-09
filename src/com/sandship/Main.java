@@ -21,13 +21,13 @@ public class Main {
                 200
         );
         Map<Material, Integer> materials = new HashMap<>();
-        materials.put(rock, 5);
-        materials.put(paper, 10);
+        materials.put(rock, 1);
+        materials.put(paper, 1);
         Warehouse warehouse = new Warehouse(materials);
         Warehouse another = new Warehouse(new HashMap<>(materials));
         Observer warehouseObserver = new WarehouseObserver(warehouse);
-        warehouse.attach(warehouseObserver);
-        another.attach(warehouseObserver);
-        warehouse.addMaterial(rock, 5);
+        Observer anotherObserver = new WarehouseObserver(another);
+        //warehouse.addMaterial(rock, 5);
+        warehouse.transferMaterialTo(rock, another);
     }
 }
