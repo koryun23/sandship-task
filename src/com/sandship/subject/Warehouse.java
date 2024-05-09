@@ -1,7 +1,7 @@
-package com.sandship;
+package com.sandship.subject;
 
+import com.sandship.core.Material;
 import com.sandship.exceptions.MaterialNotFoundException;
-import com.sandship.subject.Subject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -97,7 +97,7 @@ public class Warehouse extends Subject {
         if(material == null) {
             throw new IllegalArgumentException("Material must not be null");
         }
-        return getMaterialCount(material, true);
+        return getMaterialCount(material, false);
     }
 
     public void transferMaterialTo(Material material, Warehouse warehouse) {
@@ -117,8 +117,8 @@ public class Warehouse extends Subject {
         if(warehouse == null) {
             throw new IllegalArgumentException("Warehouse must not be null");
         }
-        warehouse.addMaterial(material, warehouse.getMaterialCount(material), false);
-        this.removeMaterial(material, false);
+        warehouse.addMaterial(material, warehouse.getMaterialCount(material), notifyObservers);
+        this.removeMaterial(material, notifyObservers);
         if(notifyObservers) notifyObservers();
     }
 

@@ -1,6 +1,5 @@
 package com.sandship.observer;
 
-import com.sandship.Warehouse;
 import com.sandship.subject.Subject;
 
 public class WarehouseObserver implements Observer {

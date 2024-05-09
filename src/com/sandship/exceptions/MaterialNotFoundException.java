@@ -1,6 +1,6 @@
 package com.sandship.exceptions;
 
-import com.sandship.Material;
+import com.sandship.core.Material;
 
 public class MaterialNotFoundException extends RuntimeException {
     public MaterialNotFoundException(Material material) {

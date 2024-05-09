@@ -1,4 +1,4 @@
-package com.sandship;
+package com.sandship.core;
 
 import java.util.Objects;
 
