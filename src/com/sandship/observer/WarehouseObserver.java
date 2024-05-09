@@ -15,7 +15,6 @@ public class WarehouseObserver implements Observer {
     @Override
     public void update(Subject subject) {
         if(this.warehouseSubject == subject) {
-            System.out.println("The state of the subject has changed");
             System.out.println(warehouseSubject);
         }
     }

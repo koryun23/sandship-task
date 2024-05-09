@@ -27,7 +27,7 @@ public class Main {
         Warehouse another = new Warehouse(new HashMap<>(materials));
         Observer warehouseObserver = new WarehouseObserver(warehouse);
         Observer anotherObserver = new WarehouseObserver(another);
-        //warehouse.addMaterial(rock, 5);
-        warehouse.transferMaterialTo(rock, another);
+        //warehouse.addMaterial(rock, 1);
+        warehouse.transferMaterialTo(rock, another, false);
     }
 }
