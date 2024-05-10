@@ -68,12 +68,12 @@ public class Warehouse extends Subject {
             throw new MaterialNotFoundException(material);
         }
 
-        int materialCount = getMaterialCount(material);
+        int finalMaterialAmount = getMaterialCount(material) - amountOfMaterials;
 
-        if(isCountLessThanMinimumCapacity(materialCount)) {
-            materials.put(material, 0);
+        if(isCountLessThanMinimumCapacity(finalMaterialAmount)) {
+            materials.remove(material);
         } else {
-            materials.put(material, materialCount - amountOfMaterials);
+            materials.put(material, finalMaterialAmount);
         }
 
         notifyObservers();
@@ -124,7 +124,7 @@ public class Warehouse extends Subject {
     public Material getMaterialByName(String name) {
         for(Map.Entry<Material, Integer> pair : this.materials.entrySet()) {
             if(pair.getKey().getName().equals(name)) {
-                return pair.getKey();
+                return new Material(pair.getKey());
             }
         }
         throw new MaterialNotFoundException(String.format("Material '%s' not found", name));
