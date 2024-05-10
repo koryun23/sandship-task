@@ -22,15 +22,15 @@ public class Warehouse extends Subject {
         this.materials = new HashMap<>();
     }
 
-    public void addMaterial(Material material, int count) {
+    public void addMaterial(Material material, int amountOfMaterials) {
         if(material == null) {
             throw new IllegalArgumentException("Material must not be null");
         }
-        if(count < 0) {
+        if(amountOfMaterials < 0) {
             throw new IllegalArgumentException("The amount of materials must be positive");
         }
 
-        int finalCountOfMaterial = getMaterialCount(material) + count;
+        int finalCountOfMaterial = getMaterialCount(material) + amountOfMaterials;
 
         if(isCountExceedingMaxCap(finalCountOfMaterial, material)) finalCountOfMaterial = material.getMaxCapacity();
 
@@ -57,11 +57,11 @@ public class Warehouse extends Subject {
         notifyObservers();
     }
 
-    public void removeMaterial(Material material, int count) {
+    public void removeMaterial(Material material, int amountOfMaterials) {
         if(material == null) {
             throw new IllegalArgumentException("Material must not be null");
         }
-        if(count < 0) {
+        if(amountOfMaterials < 0) {
             throw new IllegalArgumentException("Material count must be positive");
         }
         if(!isMaterialInWarehouse(material)) {
@@ -73,7 +73,7 @@ public class Warehouse extends Subject {
         if(isCountLessThanMinimumCapacity(materialCount)) {
             materials.put(material, 0);
         } else {
-            materials.put(material, materialCount - count);
+            materials.put(material, materialCount - amountOfMaterials);
         }
 
         notifyObservers();
@@ -99,26 +99,35 @@ public class Warehouse extends Subject {
         transferMaterialTo(material, warehouse, this.getMaterialCount(material));
     }
 
-    public void transferMaterialTo(Material material, Warehouse warehouse, int count) {
+    public void transferMaterialTo(Material material, Warehouse warehouse, int amountOfMaterials) {
         if(material == null) {
             throw new IllegalArgumentException("Material must not be null");
         }
         if(warehouse == null) {
             throw new IllegalArgumentException("Warehouse must not be null");
         }
-        if(count < 0) {
+        if(amountOfMaterials < 0) {
             throw new IllegalArgumentException("Amount of materials must be positive");
         }
-        if(count > getMaterialCount(material) || count > material.getMaxCapacity()) {
-            throw new IllegalArgumentException(String.format("Transfer amount must be less than the actual amount of that material in the warehouse, but was %s", count));
+        if(amountOfMaterials > getMaterialCount(material) || amountOfMaterials > material.getMaxCapacity()) {
+            throw new IllegalArgumentException(String.format("Transfer amount must be less than the actual amount of that material in the warehouse, but was %s", amountOfMaterials));
         }
 
-        warehouse.addMaterial(material, count);
+        warehouse.addMaterial(material, amountOfMaterials);
 
-        count = Math.min(count, material.getMaxCapacity() - getMaterialCount(material));
+        amountOfMaterials = Math.min(amountOfMaterials, material.getMaxCapacity() - getMaterialCount(material));
 
-        this.removeMaterial(material, count);
+        this.removeMaterial(material, amountOfMaterials);
         notifyObservers();
+    }
+
+    public Material getMaterialByName(String name) {
+        for(Map.Entry<Material, Integer> pair : this.materials.entrySet()) {
+            if(pair.getKey().getName().equals(name)) {
+                return pair.getKey();
+            }
+        }
+        throw new MaterialNotFoundException(String.format("Material '%s' not found", name));
     }
 
     private boolean isMaterialInWarehouse(Material material) {
