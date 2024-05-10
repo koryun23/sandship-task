@@ -14,26 +14,22 @@ public class Main {
                 "Rock",
                 "Description of Rock",
                 "rock-icon.png",
-                100
+                9
         );
         Material paper = new Material(
                 "Paper",
                 "Description of Paper",
                 "paper-icon.png",
-                200
+                9
         );
         Map<Material, Integer> materials = new HashMap<>();
-        materials.put(rock, 1);
-        materials.put(paper, 1);
+        materials.put(rock, 6);
+        //materials.put(paper, 6);
         Warehouse warehouse = new Warehouse(materials);
         Warehouse another = new Warehouse(new HashMap<>(materials));
         Observer warehouseObserver = new WarehouseObserver(warehouse);
         Observer anotherObserver = new WarehouseObserver(another);
-        warehouse.addMaterial(rock, 1);
-        warehouse.transferMaterialTo(rock, another);
-        System.out.println("Another");
-        System.out.println(another);
-        another.addMaterial(rock, 5);
+        warehouse.transferMaterialTo(rock, another, 2);
         //warehouse.removeMaterial(rock, true);
     }
 }

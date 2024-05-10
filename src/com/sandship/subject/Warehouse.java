@@ -57,12 +57,33 @@ public class Warehouse extends Subject {
         notifyObservers();
     }
 
+    public void removeMaterial(Material material, int count) {
+        if(material == null) {
+            throw new IllegalArgumentException("Material must not be null");
+        }
+        if(count < 0) {
+            throw new IllegalArgumentException("Material count must be positive");
+        }
+        if(!isMaterialInWarehouse(material)) {
+            throw new MaterialNotFoundException(material);
+        }
+
+        int materialCount = getMaterialCount(material);
+
+        if(isCountLessThanMinimumCapacity(materialCount)) {
+            materials.put(material, 0);
+        } else {
+            materials.put(material, materialCount - count);
+        }
+
+        notifyObservers();
+    }
+
     public int getMaterialCount(Material material) {
         if(material == null) {
             throw new IllegalArgumentException("Material must not be null");
         }
         if (isMaterialInWarehouse(material)) {
-            notifyObservers();
             return materials.get(material);
         }
         return 0;
@@ -75,8 +96,28 @@ public class Warehouse extends Subject {
         if(warehouse == null) {
             throw new IllegalArgumentException("Warehouse must not be null");
         }
-        warehouse.addMaterial(material, warehouse.getMaterialCount(material));
-        this.removeMaterial(material);
+        transferMaterialTo(material, warehouse, this.getMaterialCount(material));
+    }
+
+    public void transferMaterialTo(Material material, Warehouse warehouse, int count) {
+        if(material == null) {
+            throw new IllegalArgumentException("Material must not be null");
+        }
+        if(warehouse == null) {
+            throw new IllegalArgumentException("Warehouse must not be null");
+        }
+        if(count < 0) {
+            throw new IllegalArgumentException("Amount of materials must be positive");
+        }
+        if(count > getMaterialCount(material) || count > material.getMaxCapacity()) {
+            throw new IllegalArgumentException(String.format("Transfer amount must be less than the actual amount of that material in the warehouse, but was %s", count));
+        }
+
+        warehouse.addMaterial(material, count);
+
+        count = Math.min(count, material.getMaxCapacity() - getMaterialCount(material));
+
+        this.removeMaterial(material, count);
         notifyObservers();
     }
 
@@ -86,6 +127,10 @@ public class Warehouse extends Subject {
 
     private boolean isCountExceedingMaxCap(int count, Material material) {
         return count > material.getMaxCapacity();
+    }
+
+    private boolean isCountLessThanMinimumCapacity(int count) {
+        return count < 0;
     }
 
     public Map<Material, Integer> getMaterials() {
