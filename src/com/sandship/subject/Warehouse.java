@@ -70,7 +70,7 @@ public class Warehouse extends Subject {
 
         int finalMaterialAmount = getMaterialCount(material) - amountOfMaterials;
 
-        if(isCountLessThanMinimumCapacity(finalMaterialAmount)) {
+        if(finalMaterialAmount < 0) {
             materials.remove(material);
         } else {
             materials.put(material, finalMaterialAmount);
@@ -136,10 +136,6 @@ public class Warehouse extends Subject {
 
     private boolean isCountExceedingMaxCap(int count, Material material) {
         return count > material.getMaxCapacity();
-    }
-
-    private boolean isCountLessThanMinimumCapacity(int count) {
-        return count < 0;
     }
 
     public Map<Material, Integer> getMaterials() {
