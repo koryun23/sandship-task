@@ -28,7 +28,7 @@ public class Material {
     }
 
     public void setName(String name) {
-        if(name == null) throw new IllegalArgumentException("Material name must not be null");
+        if (name == null) throw new IllegalArgumentException("Material name must not be null");
         this.name = name;
     }
 
@@ -46,7 +46,7 @@ public class Material {
     }
 
     public void setIcon(String icon) {
-        if(icon == null) throw new IllegalArgumentException("Material icon must not be null");
+        if (icon == null) throw new IllegalArgumentException("Material icon must not be null");
         this.icon = icon;
     }
 
@@ -55,7 +55,8 @@ public class Material {
     }
 
     public void setMaxCapacity(int maxCapacity) {
-        if(maxCapacity < 0) throw new IllegalArgumentException(String.format("Material maximum capacity must be a positive number, not %d", maxCapacity));
+        if (maxCapacity < 0)
+            throw new IllegalArgumentException(String.format("Material maximum capacity must be a positive number, not %d", maxCapacity));
         this.maxCapacity = maxCapacity;
     }
 

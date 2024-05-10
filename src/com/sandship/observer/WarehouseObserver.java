@@ -13,7 +13,7 @@ public class WarehouseObserver implements Observer {
 
     @Override
     public void update(Subject subject) {
-        if(this.warehouseSubject == subject) {
+        if (this.warehouseSubject == subject) {
             System.out.println(warehouseSubject);
         }
     }

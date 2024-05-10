@@ -23,16 +23,16 @@ public class Warehouse extends Subject {
     }
 
     public void addMaterial(Material material, int amountOfMaterials) {
-        if(material == null) {
+        if (material == null) {
             throw new IllegalArgumentException("Material must not be null");
         }
-        if(amountOfMaterials < 0) {
+        if (amountOfMaterials < 0) {
             throw new IllegalArgumentException("The amount of materials must be positive");
         }
 
         int finalCountOfMaterial = getMaterialCount(material) + amountOfMaterials;
 
-        if(isCountExceedingMaxCap(finalCountOfMaterial, material)) finalCountOfMaterial = material.getMaxCapacity();
+        if (isCountExceedingMaxCap(finalCountOfMaterial, material)) finalCountOfMaterial = material.getMaxCapacity();
 
         materials.put(material, finalCountOfMaterial);
 
@@ -40,14 +40,14 @@ public class Warehouse extends Subject {
     }
 
     public void addMaterial(Material material) {
-        if(material == null) {
+        if (material == null) {
             throw new IllegalArgumentException("Material must not be null");
         }
         addMaterial(material, 1);
     }
 
     public void removeMaterial(Material material) {
-        if(material == null) {
+        if (material == null) {
             throw new IllegalArgumentException("Material must not be null");
         }
         if (!isMaterialInWarehouse(material)) {
@@ -58,19 +58,19 @@ public class Warehouse extends Subject {
     }
 
     public void removeMaterial(Material material, int amountOfMaterials) {
-        if(material == null) {
+        if (material == null) {
             throw new IllegalArgumentException("Material must not be null");
         }
-        if(amountOfMaterials < 0) {
+        if (amountOfMaterials < 0) {
             throw new IllegalArgumentException("Material count must be positive");
         }
-        if(!isMaterialInWarehouse(material)) {
+        if (!isMaterialInWarehouse(material)) {
             throw new MaterialNotFoundException(material);
         }
 
         int finalMaterialAmount = getMaterialCount(material) - amountOfMaterials;
 
-        if(finalMaterialAmount < 0) {
+        if (finalMaterialAmount < 0) {
             materials.remove(material);
         } else {
             materials.put(material, finalMaterialAmount);
@@ -80,7 +80,7 @@ public class Warehouse extends Subject {
     }
 
     public int getMaterialCount(Material material) {
-        if(material == null) {
+        if (material == null) {
             throw new IllegalArgumentException("Material must not be null");
         }
         if (isMaterialInWarehouse(material)) {
@@ -90,26 +90,26 @@ public class Warehouse extends Subject {
     }
 
     public void transferMaterialTo(Material material, Warehouse warehouse) {
-        if(material == null) {
+        if (material == null) {
             throw new IllegalArgumentException("Material must not be null");
         }
-        if(warehouse == null) {
+        if (warehouse == null) {
             throw new IllegalArgumentException("Warehouse must not be null");
         }
         transferMaterialTo(material, warehouse, this.getMaterialCount(material));
     }
 
     public void transferMaterialTo(Material material, Warehouse warehouse, int amountOfMaterials) {
-        if(material == null) {
+        if (material == null) {
             throw new IllegalArgumentException("Material must not be null");
         }
-        if(warehouse == null) {
+        if (warehouse == null) {
             throw new IllegalArgumentException("Warehouse must not be null");
         }
-        if(amountOfMaterials < 0) {
+        if (amountOfMaterials < 0) {
             throw new IllegalArgumentException("Amount of materials must be positive");
         }
-        if(amountOfMaterials > getMaterialCount(material) || amountOfMaterials > material.getMaxCapacity()) {
+        if (amountOfMaterials > getMaterialCount(material) || amountOfMaterials > material.getMaxCapacity()) {
             throw new IllegalArgumentException(String.format("Transfer amount must be less than the actual amount of that material in the warehouse, but was %s", amountOfMaterials));
         }
 
@@ -122,8 +122,8 @@ public class Warehouse extends Subject {
     }
 
     public Material getMaterialByName(String name) {
-        for(Map.Entry<Material, Integer> pair : this.materials.entrySet()) {
-            if(pair.getKey().getName().equals(name)) {
+        for (Map.Entry<Material, Integer> pair : this.materials.entrySet()) {
+            if (pair.getKey().getName().equals(name)) {
                 return new Material(pair.getKey());
             }
         }
@@ -147,7 +147,7 @@ public class Warehouse extends Subject {
     public String toString() {
         StringBuilder sb = new StringBuilder("WAREHOUSE");
         sb.append("\n----------------------------------------\n");
-        for(Map.Entry<Material, Integer> entry : this.materials.entrySet()) {
+        for (Map.Entry<Material, Integer> entry : this.materials.entrySet()) {
             sb.append(entry.getKey().toString());
             sb.append("Current Amount: ");
             sb.append(entry.getValue());
