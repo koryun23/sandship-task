@@ -31,7 +31,9 @@ public class Main {
         Observer anotherObserver = new WarehouseObserver(another);
         warehouse.addMaterial(rock, 1);
         warehouse.transferMaterialTo(rock, another);
+        System.out.println("Another");
         System.out.println(another);
+        another.addMaterial(rock, 5);
         //warehouse.removeMaterial(rock, true);
     }
 }
